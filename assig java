@@ -1,0 +1,70 @@
+import java.util.*;
+
+class ProjectFeedbackAnalyzer {
+    private List<String> feedbacks;
+
+    public ProjectFeedbackAnalyzer(List<String> feedbacks) {
+        this.feedbacks = feedbacks;
+    }
+
+    private int sentimentScore(String text) {
+        String[] positiveWords = {
+            "good", "great", "excellent", "amazing",
+            "fast", "easy", "helpful", "perfect"
+        };
+
+        String[] negativeWords = {
+            "bad", "slow", "bug", "issue",
+            "poor", "difficult", "error", "problem"
+        };
+
+        int score = 0;
+        String lowerText = text.toLowerCase();
+
+        for (String word : positiveWords) {
+            if (lowerText.contains(word)) {
+                score++;
+            }
+        }
+
+        for (String word : negativeWords) {
+            if (lowerText.contains(word)) {
+                score--;
+            }
+        }
+
+        return score;
+    }
+
+    public void analyze() {
+        for (String feedback : feedbacks) {
+            int score = sentimentScore(feedback);
+            String sentiment;
+
+            if (score > 0) {
+                sentiment = "Positive";
+            } else if (score < 0) {
+                sentiment = "Negative";
+            } else {
+                sentiment = "Neutral";
+            }
+
+            System.out.println("Feedback: " + feedback);
+            System.out.println("Score: " + score);
+            System.out.println("Sentiment: " + sentiment);
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        List<String> feedbackData = Arrays.asList(
+            "The project is excellent and easy to use",
+            "The system is slow and has bug issue",
+            "Good interface but difficult navigation",
+            "Amazing performance and helpful features"
+        );
+
+        ProjectFeedbackAnalyzer analyzer = new ProjectFeedbackAnalyzer(feedbackData);
+        analyzer.analyze();
+    }
+}+-
